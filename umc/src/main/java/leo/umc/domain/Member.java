@@ -4,8 +4,12 @@ import leo.umc.domain.common.BaseEntity;
 import leo.umc.domain.enums.Gender;
 import leo.umc.domain.enums.Status;
 import leo.umc.domain.mapping.MemberMission;
+import leo.umc.domain.mapping.MemberPrefer;
 import leo.umc.domain.mapping.Review;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -13,6 +17,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@DynamicUpdate
+@DynamicInsert
 @Entity
 @Getter
 @Builder
@@ -24,7 +30,6 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Column(nullable = false, length = 20)
     private String name;
 
@@ -34,23 +39,25 @@ public class Member extends BaseEntity {
     @Column(nullable = false, length = 40)
     private String detailAddress;
 
-    @Column(nullable = false, length = 13)
+    @Column(length = 13)
     private String phoneNum;
 
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private String loginId;
 
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private String password;
 
+    @Column(length = 40)
     private LocalDate birthday;
 
     //멤버 비활성화 기간 체크용?
     private LocalDate inactiveDate;
 
-    @Column(nullable = false, length = 40)
+//    @Column(nullable = false, length = 40)
     private String email;
 
+    @ColumnDefault("0")
     private Integer point;
 
     @Enumerated(EnumType.STRING)
@@ -66,7 +73,7 @@ public class Member extends BaseEntity {
     private List<MemberMission> memberMissionList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<FoodType> FoodTypeList = new ArrayList<>();
+    private List<MemberPrefer> memberPreferList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<MyPage> MyPageList = new ArrayList<>();
