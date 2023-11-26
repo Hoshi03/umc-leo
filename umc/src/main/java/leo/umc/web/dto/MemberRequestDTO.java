@@ -29,7 +29,6 @@ public class MemberRequestDTO {
         String loginId;
         String password;
         String email;
-        Integer point;
         @ExistCategories
         List<Long> preferCategory;
     }
